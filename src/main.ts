@@ -46,12 +46,57 @@ async function fetchChef(id: number): Promise<Chef> {
   return data;
 }
 
+
+
+// Versione JavaScript
+// async function getChefBirthday(id) {
+
+//     try {
+
+//         const getRecipe = await fetchData(`https://dummyjson.com/recipes/${id}`);
+//         const getChefId = await fetchData(`https://dummyjson.com/users/${getRecipe.userId}`);
+//         const getChefBirthday = getChefId.birthDate;
+//         return getChefBirthday;
+
+//     } catch (error) {
+
+//         throw new Error(`Non posso recuperare la data di nascita dello chef ${error.message}`)
+
+//     }
+
+// }
+
+// Versione TypeScript
+// Recupero data di nascita dello chef dall'id della ricetta
+async function getChefBirthday(id: number): Promise<string> {
+  try {
+    const recipe = await fetchRecipe(id);
+    const user = await fetchChef(recipe.userId);
+    return user.birthDate;
+  } catch (error: any) {
+    throw new Error(`Errore: ${error.message}`);
+  }
+}
+
+
+
+// Versione JavaScript
+// (async () => {
+//     try {
+//         const birthday = await getChefBirthday(1);
+//         console.log("Data di nascita dello chef:", birthday)
+//     }
+//     catch (error) {
+//         console.error(error)
+//     }
+//     console.log("Fine codice")
+// })()
+
+// Versione TypeScript
 (async () => {
   try {
-    const recipe = await fetchRecipe(1);
-    const chef = await fetchChef(1);
-    console.log("Recipe", recipe)
-    console.log("Chef", chef)
+    const birthday = await getChefBirthday(1);
+    console.log("Data di nascita dello chef:", birthday)
   }
   catch (error) {
     console.error("Errore:", error)
